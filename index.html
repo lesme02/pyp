@@ -1,44 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>P&P Soluciones - Catálogo</title>
-  <style>
-    body { 
-      background-color: #1B2631; 
-      color: white; 
-      font-family: sans-serif; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      height: 100vh; 
-      margin: 0; 
-    }
-    .loader {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #3498db;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  </style>
-  <script>
-    // URL DE TU SCRIPT DE GOOGLE (Extraída de tu captura)
-    var scriptUrl = "https://script.google.com/macros/s/AKfycbzQpOyrpPXmVuuppSN5J12IXwDngQIPwMFAHKPCSAxUpAuL5jCOlq_TshAtlc9r4B9w-Q/exec";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>P&P Soluciones - Catálogo</title>
+    <meta name="description" content="Catálogo digital de P&P Soluciones. Papelería, tecnología y más.">
     
-    // Captura los parámetros de la URL de GitHub (ej: ?c=Copiado)
-    var params = window.location.search; 
-    
-    // Redirige al script de Google pegándole esos parámetros
-    window.location.replace(scriptUrl + params);
-  </script>
+    <link rel="icon" type="image/png" href="https://pypsoluciones.github.io/favicon.png"> 
+
+    <style>
+        /* Hacemos que el iframe ocupe toda la pantalla y quitamos los bordes */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; /* Evita doble barra de scroll */
+            background-color: #1B2631;
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            display: block; 
+        }
+    </style>
 </head>
 <body>
-  <div class="loader"></div>
-  <p>Cargando Catálogo...</p>
+    <script>
+        // --- CONFIGURACIÓN ---
+        // PEGA AQUÍ LA URL DE TU "WEB APP" DE GOOGLE (La que termina en /exec)
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbzQpOyrpPXmVuuppSN5J12IXwDngQIPwMFAHKPCSAxUpAuL5jCOlq_TshAtlc9r4B9w-Q/exec"; 
+        // ---------------------
+
+        // Captura los parámetros de la URL de GitHub (ej: ?c=Copiado)
+        var queryString = window.location.search;
+
+        // Crea el iframe dinámicamente
+        var iframe = document.createElement('iframe');
+        iframe.src = scriptUrl + queryString; // Une la URL del script con los parámetros
+        iframe.setAttribute('allow', 'geolocation; microphone; camera'); // Permisos estándar
+        document.body.appendChild(iframe);
+    </script>
 </body>
 </html>
