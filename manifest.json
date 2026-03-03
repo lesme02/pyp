@@ -15,9 +15,9 @@
     },
     {
       "src": "https://i.ibb.co/67bft7tm/Logo-App.png",
-      "sizes": "512x512",
+      "sizes": "600x600",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     }
   ]
 }
