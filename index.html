@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>P&P Soluciones</title>
+    <title>P&P Soluciones | Catálogo</title>
     <link rel="icon" type="image/png" href="https://pypsoluciones.github.io/Favicon%20Centrado%20P&P%20Soluciones.png"> 
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #1B2631; }
@@ -12,15 +12,17 @@
 </head>
 <body>
     <script>
-        // PEGA AQUÍ TU URL NUEVA DE APPS SCRIPT
-        var scriptUrl = "https://script.google.com/macros/s/AKfycbxMYtoFW13UXgzaNcQUN_5caQ01vO5P52eO_To-edjFgA_LR_7FOAgjaUEMm7V46HTeSw/exec"; 
+        // =========================================================================
+        // PEGA AQUÍ TU URL NUEVA DESPUÉS DE CORREGIR EL SPREADSHEET_ID
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbzBYb9h94upXI13Hz07lK6aVQCXnPp75E8zyes9tHAWd5K6Xb8_xggxITaViCXQbflLpA/exec"; 
+        // =========================================================================
 
         var queryString = window.location.search;
         var iframe = document.createElement('iframe');
         
-        // El truco &app_v=2 ayuda a limpiar caché de Google
+        // Agregamos un parámetro extra para limpiar caché
         var separator = queryString ? "&" : "?";
-        iframe.src = scriptUrl + queryString + separator + "app_v=2"; 
+        iframe.src = scriptUrl + queryString + separator + "v=" + new Date().getTime(); 
         
         iframe.setAttribute('allow', 'geolocation; microphone; camera; clipboard-write; clipboard-read; payment');
         document.body.appendChild(iframe);
