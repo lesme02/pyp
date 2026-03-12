@@ -3,43 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>P&P Soluciones | Catálogo</title>
     
-    <link rel="icon" type="image/png" href="https://pypsoluciones.github.io/Favicon%20Centrado%20P&P%20Soluciones.png"> 
+    <title>P&P Soluciones</title>
+    <meta name="description" content="Creamos Soluciones y las Ponemos a tu Disposición">
+    <meta property="og:title" content="P&P Soluciones | Catálogo Virtual">
+    <meta property="og:description" content="Encuentra los mejores productos de papelería, tecnología y servicios técnicos.">
+    <meta property="og:image" content="https://i.ibb.co/62cWwSC/Logo-P-P-Soluciones-Version-PC-6.png"> 
 
     <style>
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; 
-            background-color: #1B2631;
-        }
-        iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-            display: block; 
-        }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
     </style>
 </head>
 <body>
-    <script>
-        // =========================================================================
-        // PEGA AQUÍ TU URL NUEVA DE APPS SCRIPT
-        var scriptUrl = "https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec"; 
-        // =========================================================================
 
-        var queryString = window.location.search;
-        var iframe = document.createElement('iframe');
-        
-        // Agregamos un parámetro para forzar la actualización en Google
-        var separator = queryString ? "&" : "?";
-        iframe.src = scriptUrl + queryString + separator + "v=4"; 
-        
-        iframe.setAttribute('allow', 'geolocation; microphone; camera; clipboard-write; clipboard-read; payment; autoplay');
-        document.body.appendChild(iframe);
+    <iframe id="app-frame" src="AQUI_VA_TU_LINK_DE_GOOGLE_APPS_SCRIPT_TERMINADO_EN_/exec"></iframe>
+
+    <script>
+        // Este script captura si el cliente busca un producto específico y se lo pasa al iframe
+        const urlParams = window.location.search;
+        const iframe = document.getElementById('app-frame');
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec";
+        iframe.src = scriptUrl + urlParams;
     </script>
+
 </body>
 </html>
