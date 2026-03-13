@@ -10,6 +10,10 @@
     <meta property="og:description" content="Encuentra los mejores productos de papelería, tecnología, Computacion y Aire Acondicionado.">
     <meta property="og:image" content="https://i.ibb.co/S7rmhpzt/P-P-Logo-Carga-Tinified.png"> 
 
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="apple-touch-icon" href="https://i.ibb.co/23Qxr3Yp/Favicon-Centrado-fondo-blanco-completo-P-P-Soluciones.png">
+
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; }
         iframe { width: 100%; height: 100%; border: none; display: block; }
@@ -25,6 +29,18 @@
         const iframe = document.getElementById('app-frame');
         const scriptUrl = "https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec";
         iframe.src = scriptUrl + urlParams;
+    </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js').then(function(registration) {
+            console.log('ServiceWorker registrado con éxito');
+          }, function(err) {
+            console.log('Fallo en el registro del ServiceWorker: ', err);
+          });
+        });
+      }
     </script>
 
 </body>
