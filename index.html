@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://script.googleusercontent.com">
 
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/S7rmhpzt/P-P-Logo-Carga-Tinified.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/23Qxr3Yp/Favicon-Centrado-fondo-blanco-completo-P-P-Soluciones.png">
 
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; font-family: sans-serif; }
@@ -22,7 +22,7 @@
         /* El iframe arranca invisible (opacity: 0) hasta que esté listo */
         iframe { width: 100%; height: 100%; border: none; display: block; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease; z-index: 1; }
 
-        /* Diseño de la pantalla de carga (Aparece en milisegundos) */
+        /* Diseño de la pantalla de carga */
         #pantalla-carga {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #f4f6f9; display: flex; flex-direction: column;
@@ -35,6 +35,19 @@
         }
         @keyframes girar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .texto-carga { color: #333; font-size: 16px; font-weight: bold; letter-spacing: 1px;}
+
+        /* DISEÑO DEL CARTEL DE INSTALACIÓN (Nuevo) */
+        #cartel-instalacion {
+            position: fixed; bottom: 0; left: 0; width: 100%; background-color: #ffffff;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding: 15px 20px; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center; z-index: 100;
+            transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #cartel-instalacion.mostrar { transform: translateY(0); }
+        .texto-instalar { font-size: 14px; color: #333; line-height: 1.4; flex-grow: 1; padding-right: 15px; }
+        .botones-instalar { display: flex; align-items: center; gap: 10px; }
+        .btn-accion { background-color: #0056b3; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-cerrar { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; padding: 0 5px; }
     </style>
 </head>
 <body>
@@ -46,24 +59,60 @@
 
     <iframe id="app-frame"></iframe>
 
+    <div id="cartel-instalacion">
+        <div class="texto-instalar">¿Quieres instalar la App de <b>P&P Soluciones</b> para un acceso más rápido?</div>
+        <div class="botones-instalar">
+            <button id="btn-instalar" class="btn-accion">Instalar</button>
+            <button id="btn-cerrar-cartel" class="btn-cerrar">✕</button>
+        </div>
+    </div>
+
     <script>
-        // Este script captura si el cliente busca un producto específico y se lo pasa al iframe
+        // Lógica del Iframe y pantalla de carga
         const urlParams = window.location.search;
         const iframe = document.getElementById('app-frame');
         const pantallaCarga = document.getElementById('pantalla-carga');
         const scriptUrl = "https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec";
 
-        // LÓGICA DE CARGA: Cuando Google termine, quitamos el loader y mostramos el catálogo
         iframe.onload = function() {
-            pantallaCarga.style.display = 'none'; // Escondemos la animación
-            iframe.style.opacity = '1';           // Mostramos el catálogo suavemente
+            pantallaCarga.style.display = 'none'; 
+            iframe.style.opacity = '1';           
         };
-
-        // Disparamos la carga
         iframe.src = scriptUrl + urlParams;
+
+        // --- NUEVA LÓGICA: CAPTURAR Y MOSTRAR CARTEL DE INSTALACIÓN ---
+        let eventoInstalacionDiferido;
+        const cartelInstalacion = document.getElementById('cartel-instalacion');
+        const btnInstalar = document.getElementById('btn-instalar');
+        const btnCerrarCartel = document.getElementById('btn-cerrar-cartel');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Evita que Chrome muestre su mini-aviso por defecto
+            e.preventDefault();
+            // Guarda el evento para que podamos dispararlo al presionar nuestro botón
+            eventoInstalacionDiferido = e;
+            // Desliza nuestro cartel hacia arriba mostrándolo al cliente
+            cartelInstalacion.classList.add('mostrar');
+        });
+
+        // Qué pasa si el cliente dice "Instalar"
+        btnInstalar.addEventListener('click', async () => {
+            if (eventoInstalacionDiferido !== null) {
+                cartelInstalacion.classList.remove('mostrar'); // Oculta nuestro cartel
+                eventoInstalacionDiferido.prompt(); // Muestra el mensaje oficial del sistema
+                const { outcome } = await eventoInstalacionDiferido.userChoice;
+                eventoInstalacionDiferido = null;
+            }
+        });
+
+        // Qué pasa si el cliente cierra el cartel en la "X"
+        btnCerrarCartel.addEventListener('click', () => {
+            cartelInstalacion.classList.remove('mostrar');
+        });
     </script>
 
     <script>
+      // Registro del Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('sw.js').then(function(registration) {
