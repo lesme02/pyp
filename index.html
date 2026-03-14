@@ -13,8 +13,10 @@
     <link rel="preconnect" href="https://script.google.com">
     <link rel="preconnect" href="https://script.googleusercontent.com">
 
+    <link rel="icon" type="image/png" href="https://i.ibb.co/23Qxr3Yp/Favicon-Centrado-fondo-blanco-completo-P-P-Soluciones.png">
+    
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/S7rmhpzt/P-P-Logo-Carga-Tinified.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/23Qxr3Yp/Favicon-Centrado-fondo-blanco-completo-P-P-Soluciones.png">
 
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; font-family: sans-serif; }
@@ -36,7 +38,7 @@
         @keyframes girar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .texto-carga { color: #333; font-size: 16px; font-weight: bold; letter-spacing: 1px;}
 
-        /* DISEÑO DEL CARTEL DE INSTALACIÓN (Nuevo) */
+        /* DISEÑO DEL CARTEL DE INSTALACIÓN */
         #cartel-instalacion {
             position: fixed; bottom: 0; left: 0; width: 100%; background-color: #ffffff;
             box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding: 15px 20px; box-sizing: border-box;
@@ -80,32 +82,27 @@
         };
         iframe.src = scriptUrl + urlParams;
 
-        // --- NUEVA LÓGICA: CAPTURAR Y MOSTRAR CARTEL DE INSTALACIÓN ---
+        // LÓGICA: CAPTURAR Y MOSTRAR CARTEL DE INSTALACIÓN
         let eventoInstalacionDiferido;
         const cartelInstalacion = document.getElementById('cartel-instalacion');
         const btnInstalar = document.getElementById('btn-instalar');
         const btnCerrarCartel = document.getElementById('btn-cerrar-cartel');
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Evita que Chrome muestre su mini-aviso por defecto
             e.preventDefault();
-            // Guarda el evento para que podamos dispararlo al presionar nuestro botón
             eventoInstalacionDiferido = e;
-            // Desliza nuestro cartel hacia arriba mostrándolo al cliente
             cartelInstalacion.classList.add('mostrar');
         });
 
-        // Qué pasa si el cliente dice "Instalar"
         btnInstalar.addEventListener('click', async () => {
             if (eventoInstalacionDiferido !== null) {
-                cartelInstalacion.classList.remove('mostrar'); // Oculta nuestro cartel
-                eventoInstalacionDiferido.prompt(); // Muestra el mensaje oficial del sistema
+                cartelInstalacion.classList.remove('mostrar'); 
+                eventoInstalacionDiferido.prompt(); 
                 const { outcome } = await eventoInstalacionDiferido.userChoice;
                 eventoInstalacionDiferido = null;
             }
         });
 
-        // Qué pasa si el cliente cierra el cartel en la "X"
         btnCerrarCartel.addEventListener('click', () => {
             cartelInstalacion.classList.remove('mostrar');
         });
