@@ -10,24 +10,56 @@
     <meta property="og:description" content="Encuentra los mejores productos de papelería, tecnología, Computacion y Aire Acondicionado.">
     <meta property="og:image" content="https://i.ibb.co/S7rmhpzt/P-P-Logo-Carga-Tinified.png"> 
 
+    <link rel="preconnect" href="https://script.google.com">
+    <link rel="preconnect" href="https://script.googleusercontent.com">
+
     <link rel="manifest" href="manifest.json">
-    
     <link rel="apple-touch-icon" href="https://i.ibb.co/23Qxr3Yp/Favicon-Centrado-fondo-blanco-completo-P-P-Soluciones.png">
 
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; }
-        iframe { width: 100%; height: 100%; border: none; display: block; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f4f6f9; font-family: sans-serif; }
+        
+        /* El iframe arranca invisible (opacity: 0) hasta que esté listo */
+        iframe { width: 100%; height: 100%; border: none; display: block; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease; z-index: 1; }
+
+        /* Diseño de la pantalla de carga (Aparece en milisegundos) */
+        #pantalla-carga {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #f4f6f9; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1); width: 50px; height: 50px;
+            border-radius: 50%; border-left-color: #0056b3;
+            animation: girar 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes girar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .texto-carga { color: #333; font-size: 16px; font-weight: bold; letter-spacing: 1px;}
     </style>
 </head>
 <body>
 
-    <iframe id="app-frame" src="https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec"></iframe>
+    <div id="pantalla-carga">
+        <div class="spinner"></div>
+        <div class="texto-carga">Cargando Catálogo...</div>
+    </div>
+
+    <iframe id="app-frame"></iframe>
 
     <script>
         // Este script captura si el cliente busca un producto específico y se lo pasa al iframe
         const urlParams = window.location.search;
         const iframe = document.getElementById('app-frame');
+        const pantallaCarga = document.getElementById('pantalla-carga');
         const scriptUrl = "https://script.google.com/macros/s/AKfycbybwuAd9xVdYpjbvwBhZvOYY-VxxQ-2c4isd1TetfY8HCVNlMP0dgsYOiYgq-jX3p1dnA/exec";
+
+        // LÓGICA DE CARGA: Cuando Google termine, quitamos el loader y mostramos el catálogo
+        iframe.onload = function() {
+            pantallaCarga.style.display = 'none'; // Escondemos la animación
+            iframe.style.opacity = '1';           // Mostramos el catálogo suavemente
+        };
+
+        // Disparamos la carga
         iframe.src = scriptUrl + urlParams;
     </script>
 
